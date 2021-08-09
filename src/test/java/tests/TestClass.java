@@ -1,7 +1,8 @@
 package tests;
 
 import assertion.CustomSoftAssert;
-import io.qameta.allure.Step;
+import com.epam.reportportal.annotations.Step;
+import com.epam.reportportal.annotations.TestCaseId;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -14,6 +15,7 @@ public class TestClass extends BaseTest {
         logger.info("method preconditions");
     }
 
+    @TestCaseId("ANDRFRZ-1")
     @Test(description = "testing logging for report portal")
     public void testMethod() {
         stepOne();

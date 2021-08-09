@@ -1,11 +1,19 @@
 package assertion;
 
+import com.epam.reportportal.annotations.Step;
+import com.epam.reportportal.message.ReportPortalMessage;
+import com.epam.reportportal.service.ReportPortal;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.testng.DataProviderInvocationException;
 import org.testng.asserts.Assertion;
 import org.testng.asserts.IAssert;
 import org.testng.collections.Maps;
+import utils.screenshotmaker.ScreenshotMaker;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.Map;
 
 public class CustomSoftAssert extends Assertion {
@@ -44,21 +52,26 @@ public class CustomSoftAssert extends Assertion {
     }
 
     @Override
+    @Step("Check result")
     protected void doAssert(IAssert<?> a) {
         onBeforeAssert(a);
         try {
-            a.doAssert();
+            doAssertion(a);
             onAssertSuccess(a);
+            logger.info("Successful assertion");
         } catch (AssertionError ex) {
             onAssertFailure(a, ex);
-            //todo screenshot
-            logger.error(ex.getMessage());
+            ReportPortal.emitLog(ex.getMessage(), "error", new Date(), ScreenshotMaker.takeScreenshot("target/screenshots/failure"));
             m_errors.put(ex, a);
         } finally {
             onAfterAssert(a);
         }
     }
 
+    @Step("Do assert")
+    protected void doAssertion(IAssert<?> a) {
+        a.doAssert();
+    }
 
 //    public void assertTrue(boolean condition, String message) {
 //        try {
