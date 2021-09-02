@@ -19,7 +19,9 @@ public class ScreenshotMaker {
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             BufferedImage image = new Robot().createScreenCapture(new Rectangle(screenSize.width*2, screenSize.height*2));
             ImageIO.write(image, "png", file);
-        } catch (AWTException | IOException e) {
+        } catch (AWTException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return file;

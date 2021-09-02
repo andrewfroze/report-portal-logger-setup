@@ -44,9 +44,21 @@ public class TestClass extends BaseTest {
     @Step("Step 3")
     public void stepTree() {
         logger.info("test step 3");
-        logger.info("test step 3.1");
+        stepThree1();
         logger.info("test step 3.2");
         logger.info("test step 3.3");
+    }
+
+    @Step("Step 3.1")
+    public void stepThree1() {
+        logger.info("test step 3.1");
+        stepThree11();
+    }
+
+    @Step("Step 3.1.1")
+    public void stepThree11() {
+        logger.info("test step 3.1.1");
+        throw new RuntimeException("unexpected failure");
     }
 
     @Step("Check final")
